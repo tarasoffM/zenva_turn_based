@@ -1,8 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://47fnrcr6ragw"]
+[gd_scene load_steps=16 format=3 uid="uid://47fnrcr6ragw"]
 
 [ext_resource type="Texture2D" uid="uid://f11bhclsbj84" path="res://Assets/Sprites/background.png" id="1_1ruyk"]
 [ext_resource type="Script" uid="uid://3n22n5hsq0uf" path="res://Scripts/game_manager.gd" id="1_pd5xk"]
+[ext_resource type="Texture2D" uid="uid://udovn768hn8a" path="res://Assets/Sprites/baddie.png" id="2_1otgo"]
 [ext_resource type="Texture2D" uid="uid://b6qbykrc5nxyg" path="res://Assets/Sprites/clouds.png" id="2_pd5xk"]
+[ext_resource type="Texture2D" uid="uid://dhbymfeqqbcfs" path="res://Assets/Sprites/stick_character.png" id="3_pd5xk"]
 [ext_resource type="PackedScene" uid="uid://cvebknb4hhr0s" path="res://Scenes/character.tscn" id="4_1otgo"]
 [ext_resource type="Script" uid="uid://vf4nhud2eu18" path="res://Scripts/combat_action.gd" id="5_lrv64"]
 [ext_resource type="Resource" uid="uid://dp8liqnn3h2kj" path="res://Combat Actions/slash.tres" id="6_qeyqd"]
@@ -10,6 +12,13 @@
 [ext_resource type="Resource" uid="uid://cl768pky1viap" path="res://Combat Actions/heal.tres" id="8_upb72"]
 [ext_resource type="Script" uid="uid://d1ux2m28x1qh4" path="res://Scripts/combat_actions_ui.gd" id="9_k7mbx"]
 [ext_resource type="Script" uid="uid://mnbq6jllajpr" path="res://Scripts/combat_action_button.gd" id="9_qeyqd"]
+[ext_resource type="Script" uid="uid://b04ko30gaku44" path="res://Scripts/end_screen.gd" id="11_upb72"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k7mbx"]
+bg_color = Color(0, 0, 0, 0.764706)
+
+[sub_resource type="LabelSettings" id="LabelSettings_upb72"]
+font_size = 52
 
 [node name="Main" type="Node2D" node_paths=PackedStringArray("player_character", "ai_character")]
 script = ExtResource("1_pd5xk")
@@ -33,11 +42,17 @@ stretch_mode = 1
 [node name="Player_Character" parent="." instance=ExtResource("4_1otgo")]
 position = Vector2(-400, 200)
 is_player = true
+health = 100
 combat_actions = Array[ExtResource("5_lrv64")]([ExtResource("6_qeyqd"), ExtResource("7_k7mbx"), ExtResource("8_upb72")])
+facing_left = true
+display_texture = ExtResource("3_pd5xk")
 
 [node name="AI_Character" parent="." instance=ExtResource("4_1otgo")]
 position = Vector2(400, 200)
+health = 90
+max_health = 90
 combat_actions = Array[ExtResource("5_lrv64")]([ExtResource("6_qeyqd"), ExtResource("7_k7mbx"), ExtResource("8_upb72")])
+display_texture = ExtResource("2_1otgo")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -90,4 +105,48 @@ offset_right = 525.0
 offset_bottom = 137.0
 bbcode_enabled = true
 
+[node name="EndScreen" type="Panel" parent="CanvasLayer"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_k7mbx")
+script = ExtResource("11_upb72")
+
+[node name="HeaderText" type="Label" parent="CanvasLayer/EndScreen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -355.5
+offset_top = -252.0
+offset_right = 355.5
+offset_bottom = -36.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Player has won the game!"
+label_settings = SubResource("LabelSettings_upb72")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PlayAgain" type="Button" parent="CanvasLayer/EndScreen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -72.0
+offset_top = -26.0
+offset_right = 72.0
+offset_bottom = 26.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Play Again"
+
 [connection signal="pressed" from="CanvasLayer/CombatActionsUI/ButtonContainer/Defend" to="CanvasLayer/CombatActionsUI" method="_on_defend_pressed"]
+[connection signal="pressed" from="CanvasLayer/EndScreen/PlayAgain" to="CanvasLayer/EndScreen" method="_on_play_again_pressed"]
