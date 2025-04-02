@@ -6,10 +6,13 @@ var current_character : Character
 
 var game_over : bool = false
 
+func _ready():
+	next_turn()
+
 func next_turn ():
 	if game_over:
 		return
-		
+			
 	if current_character != null:
 		current_character.end_turn()
 		
@@ -23,17 +26,19 @@ func next_turn ():
 	if current_character.is_player:
 		pass
 		#enable and set player ui
-		await get_tree().create_timer(0.5).timeout
-		next_turn()
+
 	else:
 		#disable player ui
 		var wait_time = randf_range(1, 2)
 		await get_tree().create_timer(wait_time).timeout
-		# cast combat action
+		
+		var action_to_cast = ai_decide_combat_action()
+		ai_character.cast_combat_action(action_to_cast, player_character)
+		
 		await get_tree().create_timer(0.5).timeout
 		next_turn()
 
-func player_cast_combat_action (action):
+func player_cast_combat_action (action : CombatAction):
 	if player_character != current_character:
 		return
 		
@@ -41,5 +46,5 @@ func player_cast_combat_action (action):
 	# disable player ui
 	await get_tree().create_timer(0.5).timeout
 	
-func ai_decide_combat_action ():
-	pass
+func ai_decide_combat_action () -> CombatAction:
+	return null

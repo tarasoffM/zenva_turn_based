@@ -1,13 +1,20 @@
-[gd_scene load_steps=6 format=3 uid="uid://47fnrcr6ragw"]
+[gd_scene load_steps=11 format=3 uid="uid://47fnrcr6ragw"]
 
 [ext_resource type="Texture2D" uid="uid://f11bhclsbj84" path="res://Assets/Sprites/background.png" id="1_1ruyk"]
 [ext_resource type="Script" uid="uid://3n22n5hsq0uf" path="res://Scripts/game_manager.gd" id="1_pd5xk"]
 [ext_resource type="Texture2D" uid="uid://b6qbykrc5nxyg" path="res://Assets/Sprites/clouds.png" id="2_pd5xk"]
-[ext_resource type="Script" uid="uid://dt25641eyv0x7" path="res://Scripts/character.gd" id="3_1otgo"]
-[ext_resource type="Texture2D" uid="uid://dhbymfeqqbcfs" path="res://Assets/Sprites/stick_character.png" id="3_pd5xk"]
+[ext_resource type="PackedScene" uid="uid://cvebknb4hhr0s" path="res://Scenes/character.tscn" id="4_1otgo"]
+[ext_resource type="Script" uid="uid://vf4nhud2eu18" path="res://Scripts/combat_action.gd" id="5_lrv64"]
+[ext_resource type="Resource" uid="uid://dp8liqnn3h2kj" path="res://Combat Actions/slash.tres" id="6_qeyqd"]
+[ext_resource type="Resource" uid="uid://bi15lk6ld5bbk" path="res://Combat Actions/heavy_hit.tres" id="7_k7mbx"]
+[ext_resource type="Resource" uid="uid://cl768pky1viap" path="res://Combat Actions/heal.tres" id="8_upb72"]
+[ext_resource type="Script" uid="uid://d1ux2m28x1qh4" path="res://Scripts/combat_actions_ui.gd" id="9_k7mbx"]
+[ext_resource type="Script" uid="uid://mnbq6jllajpr" path="res://Scripts/combat_action_button.gd" id="9_qeyqd"]
 
-[node name="Main" type="Node2D"]
+[node name="Main" type="Node2D" node_paths=PackedStringArray("player_character", "ai_character")]
 script = ExtResource("1_pd5xk")
+player_character = NodePath("Player_Character")
+ai_character = NodePath("AI_Character")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(1, 2.38419e-07)
@@ -23,11 +30,63 @@ stretch_mode = 1
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
-[node name="Character" type="Node2D" parent="."]
-script = ExtResource("3_1otgo")
+[node name="Player_Character" parent="." instance=ExtResource("4_1otgo")]
+position = Vector2(-400, 200)
+is_player = true
+combat_actions = Array[ExtResource("5_lrv64")]([ExtResource("6_qeyqd"), ExtResource("7_k7mbx"), ExtResource("8_upb72")])
 
-[node name="Sprite" type="Sprite2D" parent="Character"]
-texture = ExtResource("3_pd5xk")
-offset = Vector2(0, -128)
+[node name="AI_Character" parent="." instance=ExtResource("4_1otgo")]
+position = Vector2(400, 200)
+combat_actions = Array[ExtResource("5_lrv64")]([ExtResource("6_qeyqd"), ExtResource("7_k7mbx"), ExtResource("8_upb72")])
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Character"]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="CombatActionsUI" type="Panel" parent="CanvasLayer"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -275.0
+offset_top = -178.0
+offset_right = 275.0
+offset_bottom = -23.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("9_k7mbx")
+
+[node name="ButtonContainer" type="VBoxContainer" parent="CanvasLayer/CombatActionsUI"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 9.0
+offset_right = 208.0
+offset_bottom = 145.0
+
+[node name="CombatActionButton" type="Button" parent="CanvasLayer/CombatActionsUI/ButtonContainer"]
+layout_mode = 2
+text = "Slash"
+script = ExtResource("9_qeyqd")
+
+[node name="CombatActionButton2" type="Button" parent="CanvasLayer/CombatActionsUI/ButtonContainer"]
+layout_mode = 2
+text = "Slash"
+script = ExtResource("9_qeyqd")
+
+[node name="CombatActionButton3" type="Button" parent="CanvasLayer/CombatActionsUI/ButtonContainer"]
+layout_mode = 2
+text = "Slash"
+script = ExtResource("9_qeyqd")
+
+[node name="Defend" type="Button" parent="CanvasLayer/CombatActionsUI/ButtonContainer"]
+layout_mode = 2
+text = "Slash"
+
+[node name="Description" type="RichTextLabel" parent="CanvasLayer/CombatActionsUI"]
+layout_mode = 0
+offset_left = 224.0
+offset_top = 17.0
+offset_right = 525.0
+offset_bottom = 137.0
+bbcode_enabled = true
+text = "[b]Slash[/b]
+Deal 5 damage"

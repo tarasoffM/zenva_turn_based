@@ -11,6 +11,7 @@ signal OnHeal (health: int)
 @export var max_health : int
 
 # combat actions array
+@export var combat_actions : Array[CombatAction]
 
 var target_scale : float = 1.0
 
@@ -20,6 +21,11 @@ var heal_sfx : AudioStream = preload("res://Assets/Audio/heal.wav")
 
 func begin_turn ():
 	target_scale = 1.4
+	
+	if is_player:
+		print("Player turn has begun")
+	else:
+		print("AI turn has begun")
 	
 func end_turn ():
 	target_scale = 1.0
@@ -33,7 +39,7 @@ func take_damage (amount: int):
 func heal (amount: int):
 	pass
 	
-func cast_combat_action (action, opponent: Character):
+func cast_combat_action (action : CombatAction, opponent: Character):
 	pass
 	
 func _play_audio (stream: AudioStream):
