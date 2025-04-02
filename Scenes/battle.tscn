@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://47fnrcr6ragw"]
+
+[ext_resource type="Texture2D" uid="uid://f11bhclsbj84" path="res://Assets/Sprites/background.png" id="1_1ruyk"]
+[ext_resource type="Texture2D" uid="uid://b6qbykrc5nxyg" path="res://Assets/Sprites/clouds.png" id="2_pd5xk"]
+[ext_resource type="Script" uid="uid://dt25641eyv0x7" path="res://Scripts/character.gd" id="3_1otgo"]
+[ext_resource type="Texture2D" uid="uid://dhbymfeqqbcfs" path="res://Assets/Sprites/stick_character.png" id="3_pd5xk"]
+
+[node name="Main" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(1, 2.38419e-07)
+texture = ExtResource("1_1ruyk")
+
+[node name="TextureRect" type="TextureRect" parent="Sprite2D"]
+offset_left = -2543.52
+offset_top = -547.369
+offset_right = 2899.48
+offset_bottom = 532.631
+texture = ExtResource("2_pd5xk")
+stretch_mode = 1
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Character" type="Node2D" parent="."]
+script = ExtResource("3_1otgo")
+
+[node name="Sprite" type="Sprite2D" parent="Character"]
+texture = ExtResource("3_pd5xk")
+offset = Vector2(0, -128)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Character"]
