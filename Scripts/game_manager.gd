@@ -4,6 +4,8 @@ extends Node2D
 @export var ai_character : Character
 var current_character : Character
 
+@onready var player_ui = $CanvasLayer/CombatActionsUI
+
 var game_over : bool = false
 
 func _ready():
@@ -24,11 +26,11 @@ func next_turn ():
 	current_character.begin_turn()
 	
 	if current_character.is_player:
-		pass
-		#enable and set player ui
+		player_ui.visible = true
+		player_ui.set_combat_actions(player_character.combat_actions)
 
 	else:
-		#disable player ui
+		player_ui.visible = false
 		var wait_time = randf_range(1, 2)
 		await get_tree().create_timer(wait_time).timeout
 		
@@ -43,8 +45,9 @@ func player_cast_combat_action (action : CombatAction):
 		return
 		
 	player_character.cast_combat_action(action, ai_character)
-	# disable player ui
+	player_ui.visible = false
 	await get_tree().create_timer(0.5).timeout
+	next_turn()
 	
 func ai_decide_combat_action () -> CombatAction:
 	return null

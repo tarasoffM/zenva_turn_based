@@ -57,10 +57,11 @@ script = ExtResource("9_k7mbx")
 
 [node name="ButtonContainer" type="VBoxContainer" parent="CanvasLayer/CombatActionsUI"]
 layout_mode = 0
-offset_left = 8.0
-offset_top = 9.0
-offset_right = 208.0
-offset_bottom = 145.0
+offset_left = 7.0
+offset_top = 8.0
+offset_right = 207.0
+offset_bottom = 144.0
+theme_override_constants/separation = 5
 
 [node name="CombatActionButton" type="Button" parent="CanvasLayer/CombatActionsUI/ButtonContainer"]
 layout_mode = 2
@@ -79,7 +80,7 @@ script = ExtResource("9_qeyqd")
 
 [node name="Defend" type="Button" parent="CanvasLayer/CombatActionsUI/ButtonContainer"]
 layout_mode = 2
-text = "Slash"
+text = "Defend"
 
 [node name="Description" type="RichTextLabel" parent="CanvasLayer/CombatActionsUI"]
 layout_mode = 0
@@ -88,5 +89,5 @@ offset_top = 17.0
 offset_right = 525.0
 offset_bottom = 137.0
 bbcode_enabled = true
-text = "[b]Slash[/b]
-Deal 5 damage"
+
+[connection signal="pressed" from="CanvasLayer/CombatActionsUI/ButtonContainer/Defend" to="CanvasLayer/CombatActionsUI" method="_on_defend_pressed"]
