@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="zenva_turn_based"
-run/main_scene="uid://47fnrcr6ragw"
+run/main_scene="uid://d170l6i6013vq"
 config/features=PackedStringArray("4.4", "Mobile")
 config/icon="res://icon.svg"
 

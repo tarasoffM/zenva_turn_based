@@ -1,11 +1,11 @@
-[gd_scene load_steps=16 format=3 uid="uid://47fnrcr6ragw"]
+[gd_scene load_steps=19 format=3 uid="uid://47fnrcr6ragw"]
 
 [ext_resource type="Texture2D" uid="uid://f11bhclsbj84" path="res://Assets/Sprites/background.png" id="1_1ruyk"]
 [ext_resource type="Script" uid="uid://3n22n5hsq0uf" path="res://Scripts/game_manager.gd" id="1_pd5xk"]
 [ext_resource type="Texture2D" uid="uid://udovn768hn8a" path="res://Assets/Sprites/baddie.png" id="2_1otgo"]
 [ext_resource type="Texture2D" uid="uid://b6qbykrc5nxyg" path="res://Assets/Sprites/clouds.png" id="2_pd5xk"]
-[ext_resource type="Texture2D" uid="uid://dhbymfeqqbcfs" path="res://Assets/Sprites/stick_character.png" id="3_pd5xk"]
 [ext_resource type="PackedScene" uid="uid://cvebknb4hhr0s" path="res://Scenes/character.tscn" id="4_1otgo"]
+[ext_resource type="Script" uid="uid://csovdbiu35yip" path="res://Scripts/moving_clouds.gd" id="4_xkp4y"]
 [ext_resource type="Script" uid="uid://vf4nhud2eu18" path="res://Scripts/combat_action.gd" id="5_lrv64"]
 [ext_resource type="Resource" uid="uid://dp8liqnn3h2kj" path="res://Combat Actions/slash.tres" id="6_qeyqd"]
 [ext_resource type="Resource" uid="uid://bi15lk6ld5bbk" path="res://Combat Actions/heavy_hit.tres" id="7_k7mbx"]
@@ -13,6 +13,14 @@
 [ext_resource type="Script" uid="uid://d1ux2m28x1qh4" path="res://Scripts/combat_actions_ui.gd" id="9_k7mbx"]
 [ext_resource type="Script" uid="uid://mnbq6jllajpr" path="res://Scripts/combat_action_button.gd" id="9_qeyqd"]
 [ext_resource type="Script" uid="uid://b04ko30gaku44" path="res://Scripts/end_screen.gd" id="11_upb72"]
+[ext_resource type="AudioStream" uid="uid://6xxurs77tssb" path="res://Assets/Audio/battle_music.wav" id="13_heh15"]
+
+[sub_resource type="Gradient" id="Gradient_xkp4y"]
+offsets = PackedFloat32Array(0, 0.465827, 1)
+colors = PackedColorArray(0.917017, 0.722397, 0.739375, 1, 0.798315, 0.907306, 0.900145, 1, 1, 1, 1, 1)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_rssjf"]
+load_path = "res://.godot/imported/stick_character.png-2b59d6c5f74b6a46c5838042d81cdf9e.ctex"
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k7mbx"]
 bg_color = Color(0, 0, 0, 0.764706)
@@ -25,17 +33,19 @@ script = ExtResource("1_pd5xk")
 player_character = NodePath("Player_Character")
 ai_character = NodePath("AI_Character")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Background" type="Sprite2D" parent="."]
 position = Vector2(1, 2.38419e-07)
 texture = ExtResource("1_1ruyk")
 
-[node name="TextureRect" type="TextureRect" parent="Sprite2D"]
-offset_left = -2543.52
-offset_top = -547.369
-offset_right = 2899.48
-offset_bottom = 532.631
+[node name="Clouds" type="TextureRect" parent="Background"]
+offset_left = -2880.0
+offset_top = -540.0
+offset_right = 960.0
+offset_bottom = 540.0
 texture = ExtResource("2_pd5xk")
 stretch_mode = 1
+script = ExtResource("4_xkp4y")
+color_lerp = SubResource("Gradient_xkp4y")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
@@ -45,7 +55,7 @@ is_player = true
 health = 100
 combat_actions = Array[ExtResource("5_lrv64")]([ExtResource("6_qeyqd"), ExtResource("7_k7mbx"), ExtResource("8_upb72")])
 facing_left = true
-display_texture = ExtResource("3_pd5xk")
+display_texture = SubResource("CompressedTexture2D_rssjf")
 
 [node name="AI_Character" parent="." instance=ExtResource("4_1otgo")]
 position = Vector2(400, 200)
@@ -147,6 +157,11 @@ offset_bottom = 26.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Play Again"
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("13_heh15")
+volume_db = -15.0
+autoplay = true
 
 [connection signal="pressed" from="CanvasLayer/CombatActionsUI/ButtonContainer/Defend" to="CanvasLayer/CombatActionsUI" method="_on_defend_pressed"]
 [connection signal="pressed" from="CanvasLayer/EndScreen/PlayAgain" to="CanvasLayer/EndScreen" method="_on_play_again_pressed"]

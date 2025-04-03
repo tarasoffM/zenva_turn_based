@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://cvebknb4hhr0s"]
+[gd_scene load_steps=8 format=3 uid="uid://cvebknb4hhr0s"]
 
 [ext_resource type="Script" uid="uid://dt25641eyv0x7" path="res://Scripts/character.gd" id="1_ushfy"]
-[ext_resource type="Texture2D" uid="uid://dhbymfeqqbcfs" path="res://Assets/Sprites/stick_character.png" id="2_owm7s"]
+[ext_resource type="Texture2D" uid="uid://i23no6o4hwjx" path="res://Assets/Sprites/stick_character.png" id="2_owm7s"]
+[ext_resource type="Script" uid="uid://b1lqoxhq01le7" path="res://Scripts/character_visual.gd" id="3_nytcm"]
 [ext_resource type="Script" uid="uid://6rg7te7xyww1" path="res://Scripts/character_health_bar.gd" id="3_owm7s"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ushfy"]
@@ -46,8 +47,10 @@ max_health = 100
 [node name="Sprite" type="Sprite2D" parent="."]
 texture = ExtResource("2_owm7s")
 offset = Vector2(0, -128)
+script = ExtResource("3_nytcm")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+volume_db = -10.0
 
 [node name="HealthBar" type="ProgressBar" parent="."]
 offset_left = -162.0

@@ -29,18 +29,14 @@ func _ready():
 	sprite.texture = display_texture
 
 func begin_turn ():
-	target_scale = 1.4
-	
-	if is_player:
-		print("Player turn has begun")
-	else:
-		print("AI turn has begun")
-	
+	target_scale = 1.2
+		
 func end_turn ():
 	target_scale = 1.0
 	
 func _process(delta: float) -> void:
-	pass
+	scale.x = lerp(scale.x, target_scale, delta * 10)
+	scale.y = lerp(scale.y, target_scale, delta * 10)
 	
 func take_damage (amount: int):
 	health -= amount
@@ -64,5 +60,6 @@ func cast_combat_action (action : CombatAction, opponent: Character):
 		heal(action.heal_amount)
 	
 func _play_audio (stream: AudioStream):
-	pass
+	audio.stream = stream
+	audio.play()
 	

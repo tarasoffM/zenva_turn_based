@@ -54,7 +54,7 @@ func next_turn ():
 
 	else:
 		player_ui.visible = false
-		var wait_time = randf_range(1, 2)
+		var wait_time = randf_range(0.5, 1.5)
 		await get_tree().create_timer(wait_time).timeout
 		
 		var action_to_cast = ai_decide_combat_action()
